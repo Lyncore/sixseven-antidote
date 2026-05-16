@@ -12,9 +12,11 @@
   "app": {
     "windows": [
       {
-        "title": "sixseven_antidote",
-        "width": 800,
-        "height": 600
+        "title": "Sixseven Antidote",
+        "width": 900,
+        "height": 620,
+        "minWidth": 680,
+        "minHeight": 480
       }
     ],
     "security": {

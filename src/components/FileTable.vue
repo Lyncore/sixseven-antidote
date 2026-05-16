@@ -21,7 +21,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <section class="card">
+  <section class="card results-card">
     <div class="results-header">
       <span>{{ t("filesFound", { count: results.length }) }}</span>
       <div class="btn-row">
@@ -38,6 +38,7 @@ const emit = defineEmits<{
       </div>
     </div>
 
+    <div class="file-table-scroll">
     <table class="file-table">
       <thead>
         <tr>
@@ -73,5 +74,6 @@ const emit = defineEmits<{
         </tr>
       </tbody>
     </table>
+    </div>
   </section>
 </template>
