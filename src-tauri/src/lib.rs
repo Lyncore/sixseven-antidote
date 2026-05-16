@@ -152,8 +152,8 @@ async fn scan_directory(path: String, recursive: bool) -> Result<Vec<FileMatch>,
 
 #[tauri::command]
 async fn scan_all_drives() -> Result<Vec<FileMatch>, String> {
-    // On Windows enumerate drive letters A-Z
     let mut results = Vec::new();
+    #[cfg(target_os = "windows")]
     for letter in b'A'..=b'Z' {
         let drive = format!("{}:\\", letter as char);
         let p = Path::new(&drive);
@@ -161,6 +161,8 @@ async fn scan_all_drives() -> Result<Vec<FileMatch>, String> {
             results.extend(scan_path(p, true));
         }
     }
+    #[cfg(not(target_os = "windows"))]
+    results.extend(scan_path(Path::new("/"), true));
     Ok(results)
 }
 
