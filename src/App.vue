@@ -1,8 +1,17 @@
 <script setup lang="ts">
+import { useI18n } from "vue-i18n";
 import { useAntidote } from "./composables/useAntidote";
 import ScanControls from "./components/ScanControls.vue";
 import FileTable from "./components/FileTable.vue";
 import ApplyLog from "./components/ApplyLog.vue";
+
+const { t, locale } = useI18n();
+
+function onLocaleChange(e: Event) {
+  const val = (e.target as HTMLSelectElement).value;
+  locale.value = val;
+  localStorage.setItem("locale", val);
+}
 
 const {
   scanPath, recursive, backup,
@@ -17,8 +26,16 @@ const {
 <template>
   <div class="app">
     <header>
-      <h1>67 → 69</h1>
-      <p class="subtitle">Поиск и замена числа 67 в документах</p>
+      <div class="header-main">
+        <div>
+          <h1>67 → 69</h1>
+          <p class="subtitle">{{ t("subtitle") }}</p>
+        </div>
+        <select class="lang-select" :value="locale" @change="onLocaleChange">
+          <option value="ru">Русский</option>
+          <option value="en">English</option>
+        </select>
+      </div>
     </header>
 
     <ScanControls
@@ -47,7 +64,7 @@ const {
     />
 
     <div v-else-if="!scanning && !applyLog.length" class="empty">
-      Файлы не найдены или поиск ещё не запущен
+      {{ t("empty") }}
     </div>
 
     <ApplyLog v-if="applyLog.length" :log="applyLog" />

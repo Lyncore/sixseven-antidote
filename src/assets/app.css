@@ -41,6 +41,23 @@ header { text-align: center; }
 header h1 { font-size: 2rem; font-weight: 700; }
 .subtitle { color: var(--text-muted); margin-top: 4px; }
 
+.header-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.lang-select {
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 13px;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
 .card {
   background: var(--card-bg);
   border: 1px solid var(--border);

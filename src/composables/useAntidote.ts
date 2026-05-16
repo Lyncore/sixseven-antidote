@@ -1,4 +1,5 @@
 import { ref, computed } from "vue";
+import { useI18n } from "vue-i18n";
 import { invoke } from "@tauri-apps/api/core";
 import { open as dialogOpen } from "@tauri-apps/plugin-dialog";
 import { openPath } from "@tauri-apps/plugin-opener";
@@ -16,6 +17,8 @@ export interface ApplyResult {
 }
 
 export function useAntidote() {
+  const { t } = useI18n();
+
   const scanPath = ref("");
   const recursive = ref(true);
   const backup = ref(true);
@@ -58,7 +61,7 @@ export function useAntidote() {
       if (allDrives) {
         results.value = await invoke<FileMatch[]>("scan_all_drives");
       } else {
-        if (!scanPath.value) { error.value = "Укажите папку"; return; }
+        if (!scanPath.value) { error.value = t("errorNoFolder"); return; }
         results.value = await invoke<FileMatch[]>("scan_directory", {
           path: scanPath.value,
           recursive: recursive.value,

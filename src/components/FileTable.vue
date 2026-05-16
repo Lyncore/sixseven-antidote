@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { useI18n } from "vue-i18n";
 import type { FileMatch } from "../composables/useAntidote";
+
+const { t } = useI18n();
 
 const props = defineProps<{
   results: FileMatch[];
@@ -20,17 +23,17 @@ const emit = defineEmits<{
 <template>
   <section class="card">
     <div class="results-header">
-      <span>Найдено файлов: {{ results.length }}</span>
+      <span>{{ t("filesFound", { count: results.length }) }}</span>
       <div class="btn-row">
         <button
           @click="emit('applySelected')"
           :disabled="applying || !selected.size"
           class="btn-primary"
         >
-          {{ applying ? "Применяю..." : `Заменить выбранные (${selected.size})` }}
+          {{ applying ? t("applying") : t("replaceSelected", { count: selected.size }) }}
         </button>
         <button @click="emit('applyAll')" :disabled="applying" class="btn-danger">
-          {{ applying ? "Применяю..." : "Заменить все" }}
+          {{ applying ? t("applying") : t("replaceAll") }}
         </button>
       </div>
     </div>
@@ -39,10 +42,10 @@ const emit = defineEmits<{
       <thead>
         <tr>
           <th><input type="checkbox" :checked="allSelected" @change="emit('toggleAll')" /></th>
-          <th>Файл</th>
-          <th>Совпадений</th>
-          <th>Формат</th>
-          <th>Действия</th>
+          <th>{{ t("colFile") }}</th>
+          <th>{{ t("colMatches") }}</th>
+          <th>{{ t("colFormat") }}</th>
+          <th>{{ t("colActions") }}</th>
         </tr>
       </thead>
       <tbody>
@@ -63,7 +66,9 @@ const emit = defineEmits<{
           <td class="count-cell">{{ file.match_count }}</td>
           <td class="format-cell">{{ file.format.toUpperCase() }}</td>
           <td class="actions-cell" @click.stop>
-            <button @click="emit('openFile', file.path)" class="btn-small">Открыть</button>
+            <button @click="emit('openFile', file.path)" class="btn-small">
+              {{ t("open") }}
+            </button>
           </td>
         </tr>
       </tbody>

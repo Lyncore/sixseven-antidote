@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { useI18n } from "vue-i18n";
 import type { ApplyResult } from "../composables/useAntidote";
+
+const { t } = useI18n();
 
 defineProps<{
   log: ApplyResult[];
@@ -8,7 +11,7 @@ defineProps<{
 
 <template>
   <section class="card log">
-    <h3>Результаты замены</h3>
+    <h3>{{ t("logTitle") }}</h3>
     <div
       v-for="r in log"
       :key="r.path"
