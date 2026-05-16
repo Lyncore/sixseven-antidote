@@ -1,6 +1,6 @@
 import { createI18n } from "vue-i18n";
-import ru from "./ru";
-import en from "./en";
+import ruRU from "./locales/ru-RU.json";
+import enUS from "./locales/en-US.json";
 
 function detectLocale(): string {
   const saved = localStorage.getItem("locale");
@@ -12,5 +12,8 @@ export const i18n = createI18n({
   legacy: false,
   locale: detectLocale(),
   fallbackLocale: "en",
-  messages: { ru, en },
+  messages: { 
+    'en': enUS,
+    'ru': ruRU,
+  },
 });

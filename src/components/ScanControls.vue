@@ -60,6 +60,7 @@ const emit = defineEmits<{
       </div>
       <div class="progress-info">
         <span class="progress-percent">{{ progress?.percent ?? 0 }}%</span>
+        <span v-if="!progress">{{ t("progressPrepare") }}</span>
         <span v-if="progress" class="progress-stats">
           {{ t("progressScanned", { scanned: progress.scanned, total: progress.total }) }}
           &nbsp;·&nbsp;
