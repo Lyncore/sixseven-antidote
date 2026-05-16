@@ -7,6 +7,7 @@ export default {
   searching: "Searching...",
   scanFolder: "Scan folder",
   scanPC: "Entire PC",
+  cancel: "Cancel",
   filesFound: "Files found: {count}",
   applying: "Applying...",
   replaceSelected: "Replace selected ({count})",
@@ -19,4 +20,6 @@ export default {
   empty: "No files found or scan not started yet",
   logTitle: "Replacement results",
   errorNoFolder: "Please specify a folder",
+  progressScanned: "Checked {scanned} of {total}",
+  progressFound: "Found: {found}",
 };

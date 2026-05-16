@@ -15,11 +15,11 @@ function onLocaleChange(e: Event) {
 
 const {
   scanPath, recursive, backup,
-  scanning, applying,
+  scanning, applying, progress,
   results, selected, allSelected,
   applyLog, error,
   toggleAll, toggleFile,
-  pickFolder, doScan, applyTo, openFile,
+  pickFolder, doScan, cancelScan, applyTo, openFile,
 } = useAntidote();
 </script>
 
@@ -45,8 +45,10 @@ const {
       v-model:backup="backup"
       :scanning="scanning"
       :applying="applying"
+      :progress="progress"
       @pickFolder="pickFolder"
       @scan="doScan"
+      @cancel="cancelScan"
     />
 
     <div v-if="error" class="error-box">{{ error }}</div>

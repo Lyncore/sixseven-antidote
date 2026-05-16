@@ -1,6 +1,7 @@
 import { ref, computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { invoke } from "@tauri-apps/api/core";
+import { listen } from "@tauri-apps/api/event";
 import { open as dialogOpen } from "@tauri-apps/plugin-dialog";
 import { openPath } from "@tauri-apps/plugin-opener";
 
@@ -16,6 +17,14 @@ export interface ApplyResult {
   error: string | null;
 }
 
+export interface ScanProgress {
+  scanned: number;
+  total: number;
+  found: number;
+  current: string;
+  percent: number;
+}
+
 export function useAntidote() {
   const { t } = useI18n();
 
@@ -28,6 +37,7 @@ export function useAntidote() {
   const selected = ref<Set<string>>(new Set());
   const applyLog = ref<ApplyResult[]>([]);
   const error = ref("");
+  const progress = ref<ScanProgress | null>(null);
 
   const allSelected = computed(
     () => results.value.length > 0 && selected.value.size === results.value.length
@@ -56,7 +66,13 @@ export function useAntidote() {
     results.value = [];
     selected.value = new Set();
     applyLog.value = [];
+    progress.value = null;
     scanning.value = true;
+
+    const unlisten = await listen<ScanProgress>("scan-progress", (event) => {
+      progress.value = event.payload;
+    });
+
     try {
       if (allDrives) {
         results.value = await invoke<FileMatch[]>("scan_all_drives");
@@ -70,8 +86,14 @@ export function useAntidote() {
     } catch (e: any) {
       error.value = String(e);
     } finally {
+      unlisten();
+      progress.value = null;
       scanning.value = false;
     }
+  }
+
+  async function cancelScan() {
+    await invoke("cancel_scan");
   }
 
   async function applyTo(paths: string[]) {
@@ -103,10 +125,10 @@ export function useAntidote() {
 
   return {
     scanPath, recursive, backup,
-    scanning, applying,
+    scanning, applying, progress,
     results, selected, allSelected,
     applyLog, error,
     toggleAll, toggleFile,
-    pickFolder, doScan, applyTo, openFile,
+    pickFolder, doScan, cancelScan, applyTo, openFile,
   };
 }

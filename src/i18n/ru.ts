@@ -7,6 +7,7 @@ export default {
   searching: "Поиск...",
   scanFolder: "Сканировать папку",
   scanPC: "Весь ПК",
+  cancel: "Отмена",
   filesFound: "Найдено файлов: {count}",
   applying: "Применяю...",
   replaceSelected: "Заменить выбранные ({count})",
@@ -19,4 +20,6 @@ export default {
   empty: "Файлы не найдены или поиск ещё не запущен",
   logTitle: "Результаты замены",
   errorNoFolder: "Укажите папку",
+  progressScanned: "Проверено {scanned} из {total}",
+  progressFound: "Найдено: {found}",
 };
