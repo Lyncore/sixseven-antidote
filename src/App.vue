@@ -27,8 +27,9 @@ const {
   <div class="app">
     <header>
       <div class="header-main">
-        <div>
-          <h1>67 → 69</h1>
+        <img src="/logo.svg" width="64" height="64"/>
+        <div class="header-title">
+          <h1>Sixseven Antidote</h1>
           <p class="subtitle">{{ t("subtitle") }}</p>
         </div>
         <select class="lang-select" :value="locale" @change="onLocaleChange">
