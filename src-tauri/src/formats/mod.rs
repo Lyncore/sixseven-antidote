@@ -1,11 +1,11 @@
 use std::path::Path;
 use std::sync::OnceLock;
 
-mod txt;
 mod docx;
+mod txt;
 
-pub use txt::TxtHandler;
 pub use docx::DocxHandler;
+pub use txt::TxtHandler;
 
 pub trait FormatHandler: Send + Sync {
     fn extension(&self) -> &str;
@@ -17,14 +17,14 @@ pub struct Registry(Vec<Box<dyn FormatHandler>>);
 
 impl Registry {
     fn new() -> Self {
-        Self(vec![
-            Box::new(TxtHandler),
-            Box::new(DocxHandler),
-        ])
+        Self(vec![Box::new(TxtHandler), Box::new(DocxHandler)])
     }
 
     pub fn get(&self, ext: &str) -> Option<&dyn FormatHandler> {
-        self.0.iter().find(|h| h.extension() == ext).map(|h| h.as_ref())
+        self.0
+            .iter()
+            .find(|h| h.extension() == ext)
+            .map(|h| h.as_ref())
     }
 
     pub fn extensions(&self) -> Vec<&str> {

@@ -1,7 +1,7 @@
+use super::FormatHandler;
 use std::fs;
 use std::io::{Read, Write};
 use std::path::Path;
-use super::FormatHandler;
 
 pub struct DocxHandler;
 
@@ -33,7 +33,9 @@ impl DocxHandler {
 }
 
 impl FormatHandler for DocxHandler {
-    fn extension(&self) -> &str { "docx" }
+    fn extension(&self) -> &str {
+        "docx"
+    }
 
     fn count_matches(&self, path: &Path) -> Result<usize, String> {
         let xml = Self::extract_xml(path)?;
@@ -42,8 +44,8 @@ impl FormatHandler for DocxHandler {
 
     fn replace(&self, path: &Path) -> Result<usize, String> {
         let data = fs::read(path).map_err(|e| e.to_string())?;
-        let mut archive = zip::ZipArchive::new(std::io::Cursor::new(&data))
-            .map_err(|e| e.to_string())?;
+        let mut archive =
+            zip::ZipArchive::new(std::io::Cursor::new(&data)).map_err(|e| e.to_string())?;
 
         let mut entries: Vec<(String, Vec<u8>)> = Vec::new();
         for i in 0..archive.len() {
@@ -73,7 +75,9 @@ impl FormatHandler for DocxHandler {
             let options = zip::write::SimpleFileOptions::default()
                 .compression_method(zip::CompressionMethod::Deflated);
             for (name, data) in &entries {
-                writer.start_file(name, options).map_err(|e| e.to_string())?;
+                writer
+                    .start_file(name, options)
+                    .map_err(|e| e.to_string())?;
                 writer.write_all(data).map_err(|e| e.to_string())?;
             }
             writer.finish().map_err(|e| e.to_string())?;

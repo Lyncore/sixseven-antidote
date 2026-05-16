@@ -1,9 +1,9 @@
+use crate::formats::registry;
+use serde::{Deserialize, Serialize};
 use std::path::Path;
 use std::sync::atomic::{AtomicBool, Ordering};
-use walkdir::WalkDir;
-use serde::{Deserialize, Serialize};
 use tauri::Emitter;
-use crate::formats::registry;
+use walkdir::WalkDir;
 
 #[derive(Serialize, Deserialize, Clone)]
 pub struct FileMatch {
@@ -35,8 +35,11 @@ fn collect_candidates(root: &Path, recursive: bool, exts: &[&str]) -> Vec<std::p
         .into_iter()
         .filter_map(|e| e.ok())
         .filter(|e| {
-            if !e.path().is_file() { return false; }
-            let ext = e.path()
+            if !e.path().is_file() {
+                return false;
+            }
+            let ext = e
+                .path()
                 .extension()
                 .and_then(|x| x.to_str())
                 .map(|x| x.to_lowercase())
@@ -72,8 +75,12 @@ pub fn scan_path(
             .map(|e| e.to_lowercase())
             .unwrap_or_default();
 
-        let Some(handler) = reg.get(&ext) else { continue };
-        let Ok(count) = handler.count_matches(path) else { continue };
+        let Some(handler) = reg.get(&ext) else {
+            continue;
+        };
+        let Ok(count) = handler.count_matches(path) else {
+            continue;
+        };
 
         if count > 0 {
             results.push(FileMatch {
@@ -83,13 +90,17 @@ pub fn scan_path(
             });
         }
 
-        app.emit("scan-progress", ScanProgress {
-            scanned,
-            total,
-            found: results.len(),
-            current: path.to_string_lossy().to_string(),
-            percent: ((scanned as f32 / total.max(1) as f32) * 100.0) as u8,
-        }).ok();
+        app.emit(
+            "scan-progress",
+            ScanProgress {
+                scanned,
+                total,
+                found: results.len(),
+                current: path.to_string_lossy().to_string(),
+                percent: ((scanned as f32 / total.max(1) as f32) * 100.0) as u8,
+            },
+        )
+        .ok();
     }
 
     results

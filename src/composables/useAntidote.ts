@@ -1,9 +1,9 @@
-import { ref, computed } from "vue";
-import { useI18n } from "vue-i18n";
-import { invoke } from "@tauri-apps/api/core";
-import { listen } from "@tauri-apps/api/event";
-import { open as dialogOpen } from "@tauri-apps/plugin-dialog";
-import { openPath } from "@tauri-apps/plugin-opener";
+import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { invoke } from '@tauri-apps/api/core';
+import { listen } from '@tauri-apps/api/event';
+import { open as dialogOpen } from '@tauri-apps/plugin-dialog';
+import { openPath } from '@tauri-apps/plugin-opener';
 
 export interface FileMatch {
   path: string;
@@ -28,7 +28,7 @@ export interface ScanProgress {
 export function useAntidote() {
   const { t } = useI18n();
 
-  const scanPath = ref("");
+  const scanPath = ref('');
   const recursive = ref(true);
   const backup = ref(true);
   const scanning = ref(false);
@@ -36,11 +36,12 @@ export function useAntidote() {
   const results = ref<FileMatch[]>([]);
   const selected = ref<Set<string>>(new Set());
   const applyLog = ref<ApplyResult[]>([]);
-  const error = ref("");
+  const error = ref('');
   const progress = ref<ScanProgress | null>(null);
 
   const allSelected = computed(
-    () => results.value.length > 0 && selected.value.size === results.value.length
+    () =>
+      results.value.length > 0 && selected.value.size === results.value.length,
   );
 
   function toggleAll() {
@@ -62,28 +63,31 @@ export function useAntidote() {
   }
 
   async function doScan(allDrives = false) {
-    error.value = "";
+    error.value = '';
     results.value = [];
     selected.value = new Set();
     applyLog.value = [];
     progress.value = null;
     scanning.value = true;
 
-    const unlisten = await listen<ScanProgress>("scan-progress", (event) => {
+    const unlisten = await listen<ScanProgress>('scan-progress', (event) => {
       progress.value = event.payload;
     });
 
     try {
       if (allDrives) {
-        results.value = await invoke<FileMatch[]>("scan_all_drives");
+        results.value = await invoke<FileMatch[]>('scan_all_drives');
       } else {
-        if (!scanPath.value) { error.value = t("errorNoFolder"); return; }
-        results.value = await invoke<FileMatch[]>("scan_directory", {
+        if (!scanPath.value) {
+          error.value = t('errorNoFolder');
+          return;
+        }
+        results.value = await invoke<FileMatch[]>('scan_directory', {
           path: scanPath.value,
           recursive: recursive.value,
         });
       }
-    } catch (e: any) {
+    } catch (e) {
       error.value = String(e);
     } finally {
       unlisten();
@@ -93,7 +97,7 @@ export function useAntidote() {
   }
 
   async function cancelScan() {
-    await invoke("cancel_scan");
+    await invoke('cancel_scan');
   }
 
   async function applyTo(paths: string[]) {
@@ -101,14 +105,16 @@ export function useAntidote() {
     applying.value = true;
     applyLog.value = [];
     try {
-      applyLog.value = await invoke<ApplyResult[]>("apply_replacements", {
+      applyLog.value = await invoke<ApplyResult[]>('apply_replacements', {
         paths,
         backup: backup.value,
       });
-      const done = new Set(applyLog.value.filter((r) => r.success).map((r) => r.path));
+      const done = new Set(
+        applyLog.value.filter((r) => r.success).map((r) => r.path),
+      );
       results.value = results.value.filter((f) => !done.has(f.path));
       selected.value = new Set([...selected.value].filter((p) => !done.has(p)));
-    } catch (e: any) {
+    } catch (e) {
       error.value = String(e);
     } finally {
       applying.value = false;
@@ -118,17 +124,29 @@ export function useAntidote() {
   async function openFile(path: string) {
     try {
       await openPath(path);
-    } catch (e: any) {
+    } catch (e) {
       error.value = String(e);
     }
   }
 
   return {
-    scanPath, recursive, backup,
-    scanning, applying, progress,
-    results, selected, allSelected,
-    applyLog, error,
-    toggleAll, toggleFile,
-    pickFolder, doScan, cancelScan, applyTo, openFile,
+    scanPath,
+    recursive,
+    backup,
+    scanning,
+    applying,
+    progress,
+    results,
+    selected,
+    allSelected,
+    applyLog,
+    error,
+    toggleAll,
+    toggleFile,
+    pickFolder,
+    doScan,
+    cancelScan,
+    applyTo,
+    openFile,
   };
 }

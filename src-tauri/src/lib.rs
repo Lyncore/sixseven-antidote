@@ -1,7 +1,7 @@
+use serde::{Deserialize, Serialize};
 use std::fs;
 use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicBool, Ordering};
-use serde::{Deserialize, Serialize};
 
 mod formats;
 mod scanner;
@@ -43,7 +43,9 @@ async fn scan_all_drives(app: tauri::AppHandle) -> Result<Vec<FileMatch>, String
     let mut results = Vec::new();
     #[cfg(target_os = "windows")]
     for letter in b'A'..=b'Z' {
-        if CANCEL_FLAG.load(Ordering::Relaxed) { break; }
+        if CANCEL_FLAG.load(Ordering::Relaxed) {
+            break;
+        }
         let drive = format!("{}:\\", letter as char);
         let p = Path::new(&drive);
         if p.exists() {

@@ -1,11 +1,13 @@
+use super::FormatHandler;
 use std::fs;
 use std::path::Path;
-use super::FormatHandler;
 
 pub struct TxtHandler;
 
 impl FormatHandler for TxtHandler {
-    fn extension(&self) -> &str { "txt" }
+    fn extension(&self) -> &str {
+        "txt"
+    }
 
     fn count_matches(&self, path: &Path) -> Result<usize, String> {
         let content = fs::read_to_string(path).map_err(|e| e.to_string())?;
