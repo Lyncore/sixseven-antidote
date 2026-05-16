@@ -4,7 +4,6 @@
 
 Sixseven Antidote is a desktop utility that automatically finds and replaces all occurrences of `67` with `69` in supported text documents.
 
----
 
 ## Built With
 
@@ -13,7 +12,6 @@ Sixseven Antidote is a desktop utility that automatically finds and replaces all
 - 📦 TypeScript
 - 💚 Vue.js
 
----
 
 ## Features
 
@@ -25,7 +23,6 @@ Sixseven Antidote is a desktop utility that automatically finds and replaces all
 - 🧩 Support for `.txt` and `.docx` files
 - ⚙️ Extensible architecture for adding support for more formats
 
----
 
 ## Supported File Types
 
@@ -33,10 +30,10 @@ Sixseven Antidote is a desktop utility that automatically finds and replaces all
 |--------|------------|
 | `.txt` | ✅ |
 | `.docx` | ✅ |
+| `.pdf` | ❌ |
 
 Additional formats can be added through custom handlers.
 
----
 
 ## How It Works
 
@@ -98,7 +95,7 @@ Because enough is enough.
 
 ## Roadmap
 
-- [ ] PDF support
+- [ ] PDF support (and maybe other formats)
 - [ ] Custom replacement values
 - [ ] IDK
 
