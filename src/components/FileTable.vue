@@ -4,7 +4,7 @@ import type { FileMatch } from "../composables/useAntidote";
 
 const { t } = useI18n();
 
-const props = defineProps<{
+defineProps<{
   results: FileMatch[];
   selected: Set<string>;
   allSelected: boolean;
