@@ -1,7 +1,107 @@
-# Tauri + Vue + TypeScript
+# Sixseven Antidote
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+> Created for everyone who is tired of seeing 67 everywhere.
 
-## Recommended IDE Setup
+Sixseven Antidote is a desktop utility that automatically finds and replaces all occurrences of `67` with `69` in supported text documents.
 
-- [VS Code](https://code.visualstudio.com/) + [Vue - Official](https://marketplace.visualstudio.com/items?itemName=Vue.volar) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+---
+
+## Built With
+
+- ⚡ Tauri
+- 🦀 Rust
+- 📦 TypeScript
+- 💚 Vue.js
+
+---
+
+## Features
+
+- 🔍 Search for files inside a selected folder or across the entire PC
+- 📄 Display a list of all found files
+- ✅ Apply changes to selected files or all found files at once
+- 👀 Open files for preview before editing
+- 💾 Optional backup creation before modification
+- 🧩 Support for `.txt` and `.docx` files
+- ⚙️ Extensible architecture for adding support for more formats
+
+---
+
+## Supported File Types
+
+| Format | Supported |
+|--------|------------|
+| `.txt` | ✅ |
+| `.docx` | ✅ |
+
+Additional formats can be added through custom handlers.
+
+---
+
+## How It Works
+
+1. Select a folder or scan the entire computer
+2. The application searches for supported files
+3. Choose which files should be processed
+4. Replace all `67` values with `69`
+5. Optionally create backup copies before applying changes
+
+## Example
+
+Before:
+
+```txt
+The quick brown fox jumps over 67 lazy dogs.
+```
+
+After:
+
+```txt
+The quick brown fox jumps over 69 lazy dogs.
+```
+
+## Development
+
+### Requirements
+
+- Bun
+- Rust
+- Tauri CLI (installs automatically via `bun install`)
+
+### Install dependencies
+
+```bash
+bun install
+```
+
+### Run in development mode
+
+```bash
+bun run tauri dev
+```
+
+### Build the application
+
+```bash
+bun run tauri build
+```
+
+## Disclaimer
+
+This project is made for fun and entertainment purposes.
+
+Always create backups before modifying important files.
+
+## Why?
+
+Because enough is enough.
+
+## Roadmap
+
+- [ ] PDF support
+- [ ] Custom replacement values
+- [ ] IDK
+
+## License
+
+MIT License
